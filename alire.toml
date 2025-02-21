@@ -1,0 +1,11 @@
+name = "mavlink_ardupilotmega"
+description = "MAVLink, ardupilotmega dialect"
+version = "0.1.0"
+
+authors = ["Fil Andrii"]
+maintainers = ["Fil Andrii <root.fi36@gmail.com>", "Max Reznik <reznikmm@gmail.com>"]
+maintainers-logins = ["python36", "reznikmm"]
+
+licenses = "MIT"
+website = "https://github.com/reznikmm/mavlink_ardupilotmega"
+tags = ["embedded", "network", "drone"]
