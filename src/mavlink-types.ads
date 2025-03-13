@@ -2,9 +2,8 @@
 --  Copyright Fil Andrii root.fi36@gmail.com 2022-2025
 
 pragma Ada_2022;
-pragma Style_Checks (Off);
 
-package ArduPilotMega.Types is
+package MAVLink.Types is
 
    pragma Pure;
 
@@ -2488,4 +2487,4 @@ package ArduPilotMega.Types is
      with Static;
 
 
-end ArduPilotMega.Types;
+end MAVLink.Types;

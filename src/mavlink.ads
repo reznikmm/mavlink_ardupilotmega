@@ -1,28 +1,24 @@
---  ArduPilotMega
---  Copyright Fil Andrii root.fi36@gmail.com 2022-2025
+--  MAVLink
+--  Copyright Fil Andrii root.fi36@gmail.com 2022
 
 with Interfaces;
 
-package ArduPilotMega is
+package MAVLink is
 
-   pragma Pure (ArduPilotMega);
+   pragma Pure (MAVLink);
 
    Packet_Marker            : constant Interfaces.Unsigned_8 := 16#FE#;
    Packet_Marker_Length     : constant := 1;
    Packet_Checksum_Length   : constant := 2;
    Packet_Header_Length     : constant := 5;
-   Packet_Payload_First     : constant :=
-     Packet_Header_Length + Packet_Marker_Length;
-
-   Packet_Control_Info_Size : constant :=
-     Packet_Marker_Length + Packet_Header_Length + Packet_Checksum_Length;
+   Packet_Payload_First     : constant := Packet_Header_Length + Packet_Marker_Length;
+   Packet_Control_INfo_Size : constant := Packet_Marker_Length + Packet_Header_Length + Packet_Checksum_Length;
 
    Tag_Length : constant := Standard'Address_Size / 8;
-
+   
    Message_Alignment : constant := 8;
-   Message_Size      : constant :=
-     Positive (Float'Ceiling (Float (Tag_Length + Packet_Header_Length) /
-                 Float (Message_Alignment))) * Message_Alignment;
+   Message_Size      : constant := Positive (Float'Ceiling (Float (Tag_Length + Packet_Header_Length) /
+                                               Float (Message_Alignment))) * Message_Alignment;
 
    subtype Msg_Id is Interfaces.Unsigned_8;
 
@@ -49,4 +45,5 @@ package ArduPilotMega is
    type Long_Float_Array is array (Natural range <>) of Long_Float
      with Component_Size => 64;
 
-end ArduPilotMega;
+end MAVLink;
+

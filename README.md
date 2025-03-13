@@ -12,8 +12,6 @@ customized for the Ada programming language. The package is compatible
 with the Alire package manager, enabling easy integration into Ada
 projects.
 
-Currently only `ArduPilotMega.Types` package is provided.
-
 ## Overview
 
 The MAVLink Ada library allows for efficient and reliable message
@@ -50,15 +48,13 @@ the [mavlink](https://github.com/mavlink/mavlink) repo. I used this steps:
 ```shell
 python -m venv venv
 source venv/bin/activate
-git clone --depth=1 https://github.com/reznikmm/pymavlink
+git clone --depth=1 -b topic/fix_ada_gen https://github.com/reznikmm/pymavlink
 git clone --depth=1 https://github.com/mavlink/mavlink
 MDEF=$PWD/mavlink/message_definitions python -m pip install pymavlink
 
 python3 -m pymavlink.tools.mavgen --lang=Ada --wire-protocol=1.0 \
   --output=generated mavlink/message_definitions/v1.0/ardupilotmega.xml
 ```
-
-Then I renamed the root package from `MAVLink` to `ArduPilotMega`.
 
 ## Contributing
 
