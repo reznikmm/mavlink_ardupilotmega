@@ -42,13 +42,13 @@ TBD.
 
 ## Mavlink commit id
 
-The code was generated from `8690e10` commit of
+The code was generated from `fdacb2b` commit of
 the [mavlink](https://github.com/mavlink/mavlink) repo. I used this steps:
 
 ```shell
 python -m venv venv
 source venv/bin/activate
-git clone --depth=1 -b topic/fix_ada_gen https://github.com/reznikmm/pymavlink
+git clone --depth=1 https://github.com/reznikmm/pymavlink
 git clone --depth=1 https://github.com/mavlink/mavlink
 MDEF=$PWD/mavlink/message_definitions python -m pip install pymavlink
 

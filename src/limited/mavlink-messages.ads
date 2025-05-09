@@ -1717,7 +1717,7 @@ package MAVLink.Messages is
       Time_Usec : Interfaces.Unsigned_64;
       Controls  : Short_Float_Array (1..16);
       Mode      : Types.Mav_Mode_Flag;
-      Flags     : Interfaces.Unsigned_64;
+      Flags     : Types.Hil_Actuator_Controls_Flags;
    end record;
    for Hil_Actuator_Controls use record
       Time_Usec at Message_Size + 0 range 0 .. 63;

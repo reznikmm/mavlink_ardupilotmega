@@ -1,6 +1,6 @@
 name = "mavlink_ardupilotmega"
 description = "MAVLink, ardupilotmega dialect"
-version = "1.0.2"
+version = "1.0.3"
 
 authors = ["Fil Andrii"]
 maintainers = ["Fil Andrii <root.fi36@gmail.com>", "Max Reznik <reznikmm@gmail.com>"]
@@ -14,7 +14,7 @@ project-files = ["gnat/mavlink_ardupilotmega.gpr", "gnat/mavlink_ardupilotmega_l
 
 auto-gpr-with = false
 
-provides = ["mavlink_common=1.0.2"]
+provides = ["mavlink_common=1.0.3"]
 
 [build-switches]
 "*".style_checks = ["-gnatyN"]
