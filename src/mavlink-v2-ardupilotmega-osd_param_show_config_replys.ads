@@ -1,0 +1,108 @@
+-------------------------------------------
+--  DO NOT EDIT. This file is generated. --
+-------------------------------------------
+
+--  Read configured OSD parameter reply.
+
+pragma Ada_2022;
+
+with MAVLink.V2.Ardupilotmega.Types; use MAVLink.V2.Ardupilotmega.Types;
+
+package MAVLink.V2.Ardupilotmega.Osd_Param_Show_Config_Replys is
+
+   pragma Pure;
+
+   type Osd_Param_Show_Config_Reply is record
+      Request_Id  : Interfaces.Unsigned_32;
+      --  Request ID - copied from request.
+      Result      : Osd_Param_Config_Error;
+      --  Config error type.
+      Param_Id    : String (1 .. 16);
+      --  Onboard parameter id, terminated by NULL if the length is less than
+      --  16 human-readable chars and WITHOUT null termination (NULL) byte if
+      --  the length is exactly 16 chars - applications have to provide 16+1
+      --  bytes storage if the ID is stored as string
+      Config_Type : Osd_Param_Config_Type;
+      --  Config type.
+      Min_Value   : Raw_Float;
+      --  OSD parameter minimum value.
+      Max_Value   : Raw_Float;
+      --  OSD parameter maximum value.
+      Increment   : Raw_Float;
+      --  OSD parameter increment.
+   end record;
+
+   for Osd_Param_Show_Config_Reply use record
+      Request_Id  at 0  range 0 .. 31;
+      Min_Value   at 4  range 0 .. 31;
+      Max_Value   at 8  range 0 .. 31;
+      Increment   at 12 range 0 .. 31;
+      Result      at 16 range 0 .. 7;
+      Param_Id    at 17 range 0 .. 127;
+      Config_Type at 33 range 0 .. 7;
+   end record;
+
+   procedure Encode
+     (Message : Osd_Param_Show_Config_Reply;
+      Connect : in out MAVLink.V2.Out_Connection;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive);
+   --  Put the message in the buffer ready for send
+
+   procedure Encode
+     (Message : Osd_Param_Show_Config_Reply;
+      Connect : in out MAVLink.V2.Connection;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive);
+
+   procedure Decode
+     (Message   : out Osd_Param_Show_Config_Reply;
+      Connect   : MAVLink.V2.Connection;
+      CRC_Valid : out Boolean);
+   --  Get the message from the Connect and delete it
+   --  from the Connect's buffer. CRC_Valid is set to
+   --  True if x25crc is valid for the message.
+
+   procedure Decode
+     (Message : out Osd_Param_Show_Config_Reply;
+      Connect : MAVLink.V2.Connection);
+   --  Same as Above but does not check CRC
+
+   procedure Decode
+     (Message   : out Osd_Param_Show_Config_Reply;
+      Connect   : MAVLink.V2.In_Connection;
+      CRC_Valid : out Boolean);
+   --  Get the message from the Connect and delete it
+   --  from the Connect's buffer. CRC_Valid is set to
+   --  True if x25crc is valid for the message.
+
+   procedure Decode
+     (Message : out Osd_Param_Show_Config_Reply;
+      Connect : MAVLink.V2.In_Connection);
+   --  Same as Above but does not check CRC
+
+   function Check_CRC
+     (Connect : MAVLink.V2.Connection)
+      return Boolean with Inline;
+   --  Returns True if CRC is valid
+
+   function Check_CRC
+     (Connect : MAVLink.V2.In_Connection)
+      return Boolean with Inline;
+   --  Returns True if CRC is valid
+
+   procedure Encode
+     (Message : Osd_Param_Show_Config_Reply;
+      Connect : in out MAVLink.V2.Connection;
+      Sign    : in out Signature;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive);
+
+   procedure Encode
+     (Message : Osd_Param_Show_Config_Reply;
+      Connect : in out MAVLink.V2.Out_Connection;
+      Sign    : in out Signature;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive);
+
+end MAVLink.V2.Ardupilotmega.Osd_Param_Show_Config_Replys;

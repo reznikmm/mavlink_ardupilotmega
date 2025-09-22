@@ -1,9 +1,9 @@
-# mavlink_ardupilotmega
+# mavlink_ardupilotmega_v2
 
-[![Build with Alire](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml/badge.svg?branch=v1)](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml)
+[![Build with Alire](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml/badge.svg?branch=v2)](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml)
 [![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mavlink_ardupilotmega.json)](https://alire.ada.dev/crates/mavlink_ardupilotmega.html)
 
-> MAVLink -- Micro Air Vehicle Message Marshalling Library. ArduPilotMega
+> MAVLink -- Micro Air Vehicle Message Marshalling Library. ArduPilotMega V2
 
 This repository provides an Ada library for MAVLink, a lightweight
 messaging protocol for communicating with drones and other unmanned
@@ -20,9 +20,9 @@ and ground control software. With support for multiple message types,
 the library offers a robust solution for developing applications that
 require communication with MAVLink-compliant devices. Features
 
-- Generated MAVLink 1.0 protocol support,
+- Generated MAVLink 2.0 protocol support,
   [ArduPilotMega types](https://mavlink.io/en/messages/ardupilotmega.html)
-  (See `v2` branch for 2.0 wire protocol.)
+  (See `v1` branch for 1.0 wire protocol.)
 - Compatible with the Ada bareboard profiles for real-time applications
 - Modular structure for easy integration with existing Ada projects
 - Supports message serialization and deserialization
@@ -34,7 +34,7 @@ See also [mavlink_common](https://github.com/reznikmm/mavlink_common) repository
 Add MAVLink as a dependency:
 
    ```shell
-   alr with mavlink_ardupilotmega
+   alr with mavlink_ardupilotmega_v2
    ```
 
 ##  Usage
@@ -64,23 +64,23 @@ sed -i -e s/Preelaborate/Pure/ -e "s/ *$//" generated/*.ad[sb]
 I also apply this patch:
 
 ```patch
---- src/mavlink-v1-ardupilotmega-types.ads_	2025-10-20 14:05:57.476282282 +0300
-+++ src/mavlink-v1-ardupilotmega-types.ads	2025-10-20 14:13:20.475282272 +0300
-@@ -6,6 +6,8 @@
+--- mavlink-v2-ardupilotmega-types.ads_	2025-10-21 19:28:16.068718536 +0300
++++ mavlink-v2-ardupilotmega-types.ads	2025-10-21 19:35:51.820487515 +0300
+@@ -4,6 +4,8 @@
  
  pragma Ada_2022;
  
-+with MAVLink.V1.Common.Types;
++with MAVLink.V2.Common.Types;
 +
- package MAVLink.V1.Ardupilotmega.Types is
+ package MAVLink.V2.Ardupilotmega.Types is
  
     pragma Pure;
-@@ -83,7 +85,7 @@
+@@ -81,7 +83,7 @@
       (if Value in Heading_Type_Well_Known
        then Well_Known_Image (Value) else "Unknown:" & Value'Image);
  
 -   type Mav_Cmd is new Interfaces.Unsigned_16;
-+   subtype Mav_Cmd is MAVLink.V1.Common.Types.Mav_Cmd;
++   subtype Mav_Cmd is MAVLink.V2.Common.Types.Mav_Cmd;
     --  Commands to be executed by the MAV. They can be executed on user
     --  request, or as part of a mission script. If the action is used in a
     --  mission, the parameter mapping to the waypoint/mission message is as
@@ -89,11 +89,48 @@ I also apply this patch:
 And delete files from the `mavlink_common` crate:
 ```shell
 rm mavlink.ad[sb]
+rm mavlink-v2.ad[sb]
+rm mavlink-x25crc.ad[sb]
+rm mavlink-v2-standard*.ad[sb]
+rm mavlink-v2-minimal*.ad[sb]
+rm mavlink-v2-common*.ad[sb]
+rm mavlink-raw*_floats.ad[sb]
+rm mavlink-sha_256.ad[sb]
+```
+
+I also apply this patch:
+
+```patch
+--- mavlink-v2-ardupilotmega-types.ads	2025-10-06 13:06:57.999642596 +0300
++++ mavlink-v2-ardupilotmega-types.ads	2025-10-06 14:47:45.122663322 +0300
+@@ -4,6 +4,8 @@
+ 
+ pragma Ada_2022;
+ 
++with MAVLink.V2.Common.Types;
++
+ package MAVLink.V2.Ardupilotmega.Types is
+ 
+    pragma Preelaborate;
+@@ -81,7 +83,7 @@
+      (if Value in Heading_Type_Well_Known
+       then Well_Known_Image (Value) else "Unknown:" & Value'Image);
+ 
+-   type Mav_Cmd is new Interfaces.Unsigned_16;
++   subtype Mav_Cmd is MAVLink.V2.Common.Types.Mav_Cmd;
+    --  Commands to be executed by the MAV. They can be executed on user 
+    --  request, or as part of a mission script. If the action is used in a 
+    --  mission, the parameter mapping to the waypoint/mission message is as 
+```
+
+And delete files from common dialect:
+```shell
+rm mavlink.ad[sb]
 rm mavlink-x25crc.ad[sb]
 rm mavlink-v1-standard*.ad[sb]
 rm mavlink-v1-minimal*.ad[sb]
 rm mavlink-v1-common*.ad[sb]
-rm mavlink-raw*_floats.ad[sb]
+rm mavlink-raw_long_floats.ad[sb]
 ```
 
 ## Contributing
