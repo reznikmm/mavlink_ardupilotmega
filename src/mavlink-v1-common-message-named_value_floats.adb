@@ -1,0 +1,81 @@
+-------------------------------------------
+--  DO NOT EDIT. This file is generated. --
+-------------------------------------------
+
+package body Mavlink.V1.Common.Message.Named_Value_Floats is
+
+   procedure Encode
+     (Message : Named_Value_Float;
+      Connect : in out Mavlink.V1.Out_Connection;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive)
+   is
+      Local : Data_Buffer (1 .. Named_Value_Float'Value_Size / 8)
+        with Import, Address => Message'Address,
+        Convention => Ada;
+
+   begin
+      Last := Buffer'First +
+        Packet_Payload_First +
+        (Named_Value_Float'Value_Size / 8) - 1;
+      Buffer (Buffer'First + Packet_Payload_First .. Last) := Local;
+      Encode (Connect, Named_Value_Float_Id, 170, Buffer, Last);
+   end Encode;
+
+   procedure Encode
+     (Message : Named_Value_Float;
+      Connect : in out Mavlink.V1.Connection;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive)
+   is
+      Local : Data_Buffer (1 .. Named_Value_Float'Value_Size / 8)
+        with Import, Address => Message'Address,
+        Convention => Ada;
+
+   begin
+      Last := Buffer'First +
+        Packet_Payload_First +
+        (Named_Value_Float'Value_Size / 8) - 1;
+      Buffer (Buffer'First + Packet_Payload_First .. Last) := Local;
+      Encode (Connect, Named_Value_Float_Id, 170, Buffer, Last);
+   end Encode;
+
+   function Check_CRC
+     (Connect : in out Mavlink.V1.Connection) return Boolean is
+   begin
+      return Is_CRC_Valid (Connect, 170);
+   end Check_CRC;
+
+   procedure Decode
+     (Message   : out Named_Value_Float;
+      Connect   : in out Mavlink.V1.Connection;
+      CRC_Valid : out Boolean)
+   is
+      Buf : Data_Buffer
+        (1 .. Named_Value_Float'Size / 8) := [others => 0]
+        with Address => Message'Address,
+        Convention   => Ada;
+   begin
+      pragma Assert
+        (Get_Msg_Len (Connect) =
+             Unsigned_8 (Integer (Named_Value_Float'Value_Size) / 8));
+      Get_Message_Data (Connect, Buf);
+      CRC_Valid := Check_CRC (Connect);
+   end Decode;
+
+   procedure Decode
+     (Message : out Named_Value_Float;
+      Connect : in out Mavlink.V1.Connection)
+   is
+      Buf : Data_Buffer
+        (1 .. Named_Value_Float'Size / 8) := [others => 0]
+        with Address => Message'Address,
+        Convention   => Ada;
+   begin
+      pragma Assert
+        (Get_Msg_Len (Connect) =
+             Unsigned_8 (Integer (Named_Value_Float'Value_Size / 8)));
+      Get_Message_Data (Connect, Buf);
+   end Decode;
+
+end Mavlink.V1.Common.Message.Named_Value_Floats;

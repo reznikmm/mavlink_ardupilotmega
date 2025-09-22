@@ -1,0 +1,75 @@
+-------------------------------------------
+--  DO NOT EDIT. This file is generated. --
+-------------------------------------------
+
+--  Copyright Fil Andrii root.fi36@gmail.com 2022-2025
+
+--  Message with some status from autopilot to GCS about camera or antenna 
+--  mount. 
+pragma Ada_2022;
+
+
+package Mavlink.V1.Ardupilotmega.Message.Mount_Statuses is
+
+   pragma Preelaborate;
+
+   Mount_Status_Id : constant Msg_Id := 158;
+
+   Mount_Status_Len : constant Interfaces.Unsigned_8 := 14;
+
+   type Mount_Status is record
+      Target_System    : Interfaces.Unsigned_8;
+      --  System ID. 
+      Target_Component : Interfaces.Unsigned_8;
+      --  Component ID. 
+      Pointing_A       : Interfaces.Integer_32;
+      --  Units: [cdeg]
+      --  Pitch. 
+      Pointing_B       : Interfaces.Integer_32;
+      --  Units: [cdeg]
+      --  Roll. 
+      Pointing_C       : Interfaces.Integer_32;
+      --  Units: [cdeg]
+      --  Yaw. 
+   end record;
+
+   for Mount_Status use record
+      Pointing_A       at 0  range 0 .. 31;
+      Pointing_B       at 4  range 0 .. 31;
+      Pointing_C       at 8  range 0 .. 31;
+      Target_System    at 12 range 0 .. 7;
+      Target_Component at 13 range 0 .. 7;
+   end record;
+
+   procedure Encode
+     (Message : Mount_Status;
+      Connect : in out Mavlink.V1.Out_Connection;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive);
+   --  Put the message in the buffer ready for send
+
+   procedure Encode
+     (Message : Mount_Status;
+      Connect : in out Mavlink.V1.Connection;
+      Buffer  : out Data_Buffer;
+      Last    : out Positive);
+
+   procedure Decode
+     (Message   : out Mount_Status;
+      Connect   : in out Mavlink.V1.Connection;
+      CRC_Valid : out Boolean);
+   --  Get the message from the Connect and delete it
+   --  from the Connect's buffer. CRC_Valid is set to
+   --  True if x25crc is valid for the message.
+
+   procedure Decode
+     (Message : out Mount_Status;
+      Connect : in out Mavlink.V1.Connection);
+   --  Same as Above but does not check CRC
+
+   function Check_CRC
+     (Connect : in out Mavlink.V1.Connection)
+      return Boolean;
+   --  Returns True if CRC is valid
+
+end Mavlink.V1.Ardupilotmega.Message.Mount_Statuses;
