@@ -1,0 +1,22 @@
+name = "test"
+description = ""
+version = "0.1.0-dev"
+
+authors = ["Max Reznik"]
+maintainers = ["Max Reznik <reznikmm@gmail.com>"]
+maintainers-logins = ["reznikmm"]
+licenses = "MIT"
+website = ""
+tags = []
+
+executables = ["test"]
+
+[build-switches]
+"*".style_checks = ["-gnatyN", "-gnatwK"]
+"*".ada_version = "Ada2022"
+
+[[depends-on]]
+mavlink_ardupilotmega = "*"
+
+[[pins]]
+mavlink_ardupilotmega = { path='..' }
