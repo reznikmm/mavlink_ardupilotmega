@@ -1,9 +1,9 @@
-# mavlink_ardupilotmega
+# mavlink_ardupilotmega_v2
 
-[![Build with Alire](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml/badge.svg?branch=v1)](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml)
+[![Build with Alire](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml/badge.svg?branch=v2)](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml)
 [![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mavlink_ardupilotmega.json)](https://alire.ada.dev/crates/mavlink_ardupilotmega.html)
 
-> MAVLink -- Micro Air Vehicle Message Marshalling Library. ArduPilotMega
+> MAVLink -- Micro Air Vehicle Message Marshalling Library. ArduPilotMega V2
 
 This repository provides an Ada library for MAVLink, a lightweight
 messaging protocol for communicating with drones and other unmanned
@@ -20,9 +20,9 @@ and ground control software. With support for multiple message types,
 the library offers a robust solution for developing applications that
 require communication with MAVLink-compliant devices. Features
 
-- Generated MAVLink 1.0 protocol support,
+- Generated MAVLink 2.0 protocol support,
   [ArduPilotMega types](https://mavlink.io/en/messages/ardupilotmega.html)
-  (See `v2` branch for 2.0 wire protocol.)
+  (See `v1` branch for 1.0 wire protocol.)
 - Compatible with the Ada bareboard profiles for real-time applications
 - Modular structure for easy integration with existing Ada projects
 - Supports message serialization and deserialization
@@ -34,7 +34,7 @@ See also [mavlink_common](https://github.com/reznikmm/mavlink_common) repository
 Add MAVLink as a dependency:
 
    ```shell
-   alr with mavlink_ardupilotmega
+   alr with mavlink_ardupilotmega_v2
    ```
 
 ##  Usage

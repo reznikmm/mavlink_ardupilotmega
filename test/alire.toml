@@ -16,7 +16,7 @@ executables = ["test"]
 "*".ada_version = "Ada2022"
 
 [[depends-on]]
-mavlink_ardupilotmega = "*"
+mavlink_ardupilotmega_v2 = "*"
 
 [[pins]]
-mavlink_ardupilotmega = { path='..' }
+mavlink_ardupilotmega_v2 = { path='..' }

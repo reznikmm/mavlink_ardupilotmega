@@ -1,6 +1,6 @@
-name = "mavlink_ardupilotmega"
+name = "mavlink_ardupilotmega_v2"
 description = "MAVLink, ardupilotmega dialect"
-version = "2.0.0"
+version = "1.0.0"
 
 authors = ["Fil Andrii"]
 maintainers = ["Fil Andrii <root.fi36@gmail.com>", "Max Reznik <reznikmm@gmail.com>"]
@@ -10,9 +10,9 @@ licenses = "MIT"
 website = "https://github.com/reznikmm/mavlink_ardupilotmega"
 tags = ["embedded", "network", "drone"]
 
-project-files = ["gnat/mavlink_ardupilotmega.gpr"]
+project-files = ["gnat/mavlink_ardupilotmega_v2.gpr"]
 
-provides = ["mavlink_common=2.0.0"]
+provides = ["mavlink_common_v2=2.0.0"]
 
 [build-switches]
 "*".style_checks = ["-gnatyN"]
