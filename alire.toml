@@ -21,3 +21,4 @@ mavlink_common_v2 = "^1.0.0"
 
 [[pins]]
 mavlink_common_v2 = { url='https://github.com/reznikmm/mavlink_common', branch='v2' }
+mavlink_shared = { url='https://github.com/reznikmm/mavlink_shared' }
