@@ -12,8 +12,6 @@ tags = ["embedded", "network", "drone"]
 
 project-files = ["gnat/mavlink_ardupilotmega.gpr"]
 
-# provides = ["mavlink_common=2.0.0"]
-
 [build-switches]
 "*".style_checks = ["-gnatyN"]
 "*".ada_version = "Ada2022"
@@ -23,3 +21,4 @@ mavlink_common = "^2.0.0"
 
 [[pins]]
 mavlink_common = { url='https://github.com/reznikmm/mavlink_common', branch='v1' }
+mavlink_shared = { url='https://github.com/reznikmm/mavlink_shared' }
