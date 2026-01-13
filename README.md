@@ -40,19 +40,19 @@ Add MAVLink as a dependency:
 
 ##  Usage
 
-TBD.
+TBD. See [`examples`](examples/) for now.
 
 ## Mavlink commit id
 
-The code was generated from `e31f7de` commit of
+The code was generated from `b1fb5a1` commit of
 the [mavlink](https://github.com/mavlink/mavlink) repo.
-And `b136b21` from `ReladormAndry/pymavlink`.
+And `a5812a8` from [pymavlink](https://github.com/ardupilot/pymavlink) repo.
 I used this steps:
 
 ```shell
 python -m venv venv
 source venv/bin/activate
-git clone --depth=1 -b version2 https://github.com/ReladormAndry/pymavlink
+git clone --depth=1 https://github.com/ardupilot/pymavlink
 git clone --depth=1 https://github.com/mavlink/mavlink
 MDEF=$PWD/mavlink/message_definitions python -m pip install pymavlink
 
@@ -95,6 +95,7 @@ rm mavlink-v1-standard*.ad[sb]
 rm mavlink-v1-minimal*.ad[sb]
 rm mavlink-v1-common*.ad[sb]
 rm mavlink-raw*_floats.ad[sb]
+rm mavlink?v1.*
 ```
 
 ## Contributing
