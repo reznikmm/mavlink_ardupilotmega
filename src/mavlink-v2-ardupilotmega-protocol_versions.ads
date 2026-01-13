@@ -2,6 +2,11 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
+------------
+--  DEPRECATED SINCE: 2025-11 REPLACED BY: Nothing
+--  No longer needed. Support is being removed from flight stacks.
+------------
+
 --  Version and capability of protocol version. This message can be requested
 --  with MAV_CMD_REQUEST_MESSAGE and is used as part of the handshaking to
 --  establish which MAVLink version should be used on the network. Every node
@@ -12,7 +17,7 @@
 
 pragma Ada_2022;
 
-with MAVLink.V2.Minimal.Protocol_Versions;
+with MAVLink.V2.Common.Protocol_Versions;
 
 package MAVLink.V2.Ardupilotmega.Protocol_Versions
-renames MAVLink.V2.Minimal.Protocol_Versions;
+renames MAVLink.V2.Common.Protocol_Versions;

@@ -2,12 +2,6 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
-------------
---  DEPRECATED SINCE: 2022-02 REPLACED BY: MAV_CMD_DO_SET_HOME
---  The command protocol version (MAV_CMD_DO_SET_HOME) allows a GCS to detect
---  when setting the home position has failed.
-------------
-
 --  Sets the home position. The home position is the default position that the
 --  system will return to and land on. The position is set automatically by
 --  the system during the takeoff (and may also be set using this message).

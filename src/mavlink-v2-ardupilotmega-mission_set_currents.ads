@@ -2,10 +2,6 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
-------------
---  DEPRECATED SINCE: 2022-08 REPLACED BY: MAV_CMD_DO_SET_MISSION_CURRENT
-------------
-
 --  Set the mission item with sequence number seq as the current item and emit
 --  MISSION_CURRENT (whether or not the mission number changed). If a mission
 --  is currently being executed, the system will continue to this new mission

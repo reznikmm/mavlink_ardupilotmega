@@ -2,7 +2,7 @@ name = "mavlink_ardupilotmega_v2"
 description = "MAVLink, ardupilotmega dialect"
 version = "1.0.0"
 
-authors = ["Fil Andrii"]
+authors = ["Fil Andrii", "Max Reznik"]
 maintainers = ["Fil Andrii <root.fi36@gmail.com>", "Max Reznik <reznikmm@gmail.com>"]
 maintainers-logins = ["python36", "reznikmm"]
 

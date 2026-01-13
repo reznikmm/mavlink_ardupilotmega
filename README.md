@@ -1,7 +1,7 @@
 # mavlink_ardupilotmega_v2
 
 [![Build with Alire](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml/badge.svg?branch=v2)](https://github.com/reznikmm/mavlink_ardupilotmega/actions/workflows/alire.yml)
-[![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mavlink_ardupilotmega.json)](https://alire.ada.dev/crates/mavlink_ardupilotmega.html)
+[![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mavlink_ardupilotmega_v2.json)](https://alire.ada.dev/crates/mavlink_ardupilotmega_v2.html)
 
 > MAVLink -- Micro Air Vehicle Message Marshalling Library. ArduPilotMega V2
 
@@ -44,15 +44,15 @@ TBD.
 
 ## Mavlink commit id
 
-The code was generated from `e31f7de` commit of
+The code was generated from `b1fb5a1` commit of
 the [mavlink](https://github.com/mavlink/mavlink) repo.
-And `b136b21` from `ReladormAndry/pymavlink`.
+And `a5812a8` from [pymavlink](https://github.com/ardupilot/pymavlink) repo.
 I used this steps:
 
 ```shell
 python -m venv venv
 source venv/bin/activate
-git clone --depth=1 -b version2 https://github.com/ReladormAndry/pymavlink
+git clone --depth=1 https://github.com/ardupilot/pymavlink
 git clone --depth=1 https://github.com/mavlink/mavlink
 MDEF=$PWD/mavlink/message_definitions python -m pip install pymavlink
 
@@ -97,41 +97,6 @@ rm mavlink-v2-minimal*.ad[sb]
 rm mavlink-v2-common*.ad[sb]
 rm mavlink-raw*_floats.ad[sb]
 rm mavlink-sha_256.ad[sb]
-```
-
-I also apply this patch:
-
-```patch
---- mavlink-v2-ardupilotmega-types.ads	2025-10-06 13:06:57.999642596 +0300
-+++ mavlink-v2-ardupilotmega-types.ads	2025-10-06 14:47:45.122663322 +0300
-@@ -4,6 +4,8 @@
- 
- pragma Ada_2022;
- 
-+with MAVLink.V2.Common.Types;
-+
- package MAVLink.V2.Ardupilotmega.Types is
- 
-    pragma Preelaborate;
-@@ -81,7 +83,7 @@
-      (if Value in Heading_Type_Well_Known
-       then Well_Known_Image (Value) else "Unknown:" & Value'Image);
- 
--   type Mav_Cmd is new Interfaces.Unsigned_16;
-+   subtype Mav_Cmd is MAVLink.V2.Common.Types.Mav_Cmd;
-    --  Commands to be executed by the MAV. They can be executed on user 
-    --  request, or as part of a mission script. If the action is used in a 
-    --  mission, the parameter mapping to the waypoint/mission message is as 
-```
-
-And delete files from common dialect:
-```shell
-rm mavlink.ad[sb]
-rm mavlink-x25crc.ad[sb]
-rm mavlink-v1-standard*.ad[sb]
-rm mavlink-v1-minimal*.ad[sb]
-rm mavlink-v1-common*.ad[sb]
-rm mavlink-raw_long_floats.ad[sb]
 ```
 
 ## Contributing

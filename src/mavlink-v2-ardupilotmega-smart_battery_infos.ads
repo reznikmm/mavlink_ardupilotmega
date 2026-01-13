@@ -2,12 +2,6 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
-------------
---  DEPRECATED SINCE: 2024-02 REPLACED BY: BATTERY_INFO
---  The BATTERY_INFO message is better aligned with UAVCAN messages, and in
---  any case is useful even if a battery is not "smart".
-------------
-
 --  Smart Battery information (static/infrequent update). Use for updates
 --  from: smart battery to flight stack, flight stack to GCS. Use
 --  BATTERY_STATUS for the frequent battery updates.

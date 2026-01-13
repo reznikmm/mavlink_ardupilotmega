@@ -2,10 +2,6 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
-------------
---  DEPRECATED SINCE: 2015-08 REPLACED BY: MAV_CMD_SET_MESSAGE_INTERVAL
-------------
-
 --  Request a data stream.
 
 pragma Ada_2022;

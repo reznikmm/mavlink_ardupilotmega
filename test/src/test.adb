@@ -253,7 +253,9 @@ with MAVLink.V2.Common.Gimbal_Manager_Set_Pitchyaws;
 with MAVLink.V2.Common.Gimbal_Manager_Set_Manual_Controls;
 with MAVLink.V2.Common.Esc_Infos;
 with MAVLink.V2.Common.Esc_Statuses;
+with MAVLink.V2.Common.Airspeeds;
 with MAVLink.V2.Common.Wifi_Config_Aps;
+with MAVLink.V2.Common.Protocol_Versions;
 with MAVLink.V2.Common.Ais_Vessels;
 with MAVLink.V2.Common.Uavcan_Node_Statuses;
 with MAVLink.V2.Common.Uavcan_Node_Infos;
@@ -275,6 +277,7 @@ with MAVLink.V2.Common.Param_Errors;
 with MAVLink.V2.Common.Debug_Float_Arrays;
 with MAVLink.V2.Common.Orbit_Execution_Statuses;
 with MAVLink.V2.Common.Smart_Battery_Infos;
+with MAVLink.V2.Common.Figure_Eight_Execution_Statuses;
 with MAVLink.V2.Common.Fuel_Statuses;
 with MAVLink.V2.Common.Battery_Infos;
 with MAVLink.V2.Common.Generator_Statuses;
@@ -331,7 +334,6 @@ with MAVLink.V2.Csairlink.Airlink_Auth_Responses;
 with MAVLink.V2.Standard.Global_Position_Ints;
 with MAVLink.V2.Standard.Autopilot_Versions;
 with MAVLink.V2.Minimal.Heartbeats;
-with MAVLink.V2.Minimal.Protocol_Versions;
 
 with Ada.Text_IO;
 
@@ -7932,6 +7934,34 @@ begin
    end;
 
    declare
+      use MAVLink.V2.Common.Airspeeds;
+      I : Airspeed;
+      O : constant Airspeed :=
+         (Id => 1,
+          Airspeed => To_Raw (9.9),
+          Temperature => <>,
+          Raw_Press => <>,
+          Flags => <>);
+   begin
+      Encode (O, Out_Connect, Sig, Buffer, Last);
+
+      for Index in Buffer'First .. Last - 1 loop
+         Res := Parse_Byte (In_Connect, Buffer (Index));
+         pragma Assert (not Res);
+      end loop;
+      Res := Parse_Byte (In_Connect, Buffer (Last));
+      pragma Assert (Res);
+
+      Get_Message_Information
+        (In_Connect, Sig, Seq, Sys_Id, Comp_Id, Id, Link_Id, Timestamp, Signature);
+      pragma Assert (Signature = True);
+
+      Decode (I, In_Connect, Res);
+      pragma Assert (Res);
+      pragma Assert (I = O);
+   end;
+
+   declare
       use MAVLink.V2.Common.Wifi_Config_Aps;
       I : Wifi_Config_Ap;
       O : constant Wifi_Config_Ap :=
@@ -7939,6 +7969,34 @@ begin
           Password => [others => 'A'],
           Mode => MAVLink.V2.Common.Types.Wifi_Config_Ap_Mode'First,
           Response => MAVLink.V2.Common.Types.Wifi_Config_Ap_Response'First);
+   begin
+      Encode (O, Out_Connect, Sig, Buffer, Last);
+
+      for Index in Buffer'First .. Last - 1 loop
+         Res := Parse_Byte (In_Connect, Buffer (Index));
+         pragma Assert (not Res);
+      end loop;
+      Res := Parse_Byte (In_Connect, Buffer (Last));
+      pragma Assert (Res);
+
+      Get_Message_Information
+        (In_Connect, Sig, Seq, Sys_Id, Comp_Id, Id, Link_Id, Timestamp, Signature);
+      pragma Assert (Signature = True);
+
+      Decode (I, In_Connect, Res);
+      pragma Assert (Res);
+      pragma Assert (I = O);
+   end;
+
+   declare
+      use MAVLink.V2.Common.Protocol_Versions;
+      I : Protocol_Version;
+      O : constant Protocol_Version :=
+         (Version => 2,
+          Min_Version => 2,
+          Max_Version => 2,
+          Spec_Version_Hash => [others => 1],
+          Library_Version_Hash => [others => 1]);
    begin
       Encode (O, Out_Connect, Sig, Buffer, Last);
 
@@ -8597,6 +8655,37 @@ begin
           Discharge_Maximum_Current => <>,
           Discharge_Maximum_Burst_Current => <>,
           Manufacture_Date => <>);
+   begin
+      Encode (O, Out_Connect, Sig, Buffer, Last);
+
+      for Index in Buffer'First .. Last - 1 loop
+         Res := Parse_Byte (In_Connect, Buffer (Index));
+         pragma Assert (not Res);
+      end loop;
+      Res := Parse_Byte (In_Connect, Buffer (Last));
+      pragma Assert (Res);
+
+      Get_Message_Information
+        (In_Connect, Sig, Seq, Sys_Id, Comp_Id, Id, Link_Id, Timestamp, Signature);
+      pragma Assert (Signature = True);
+
+      Decode (I, In_Connect, Res);
+      pragma Assert (Res);
+      pragma Assert (I = O);
+   end;
+
+   declare
+      use MAVLink.V2.Common.Figure_Eight_Execution_Statuses;
+      I : Figure_Eight_Execution_Status;
+      O : constant Figure_Eight_Execution_Status :=
+         (Time_Usec => 4,
+          Major_Radius => To_Raw (9.9),
+          Minor_Radius => To_Raw (9.9),
+          Orientation => To_Raw (9.9),
+          Frame => MAVLink.V2.Common.Types.Mav_Frame'First,
+          X => 7,
+          Y => 7,
+          Z => To_Raw (9.9));
    begin
       Encode (O, Out_Connect, Sig, Buffer, Last);
 
@@ -10258,34 +10347,6 @@ begin
           Custom_Mode => 3,
           System_Status => MAVLink.V2.Minimal.Types.Mav_State'First,
           Mavlink_Version => 1);
-   begin
-      Encode (O, Out_Connect, Sig, Buffer, Last);
-
-      for Index in Buffer'First .. Last - 1 loop
-         Res := Parse_Byte (In_Connect, Buffer (Index));
-         pragma Assert (not Res);
-      end loop;
-      Res := Parse_Byte (In_Connect, Buffer (Last));
-      pragma Assert (Res);
-
-      Get_Message_Information
-        (In_Connect, Sig, Seq, Sys_Id, Comp_Id, Id, Link_Id, Timestamp, Signature);
-      pragma Assert (Signature = True);
-
-      Decode (I, In_Connect, Res);
-      pragma Assert (Res);
-      pragma Assert (I = O);
-   end;
-
-   declare
-      use MAVLink.V2.Minimal.Protocol_Versions;
-      I : Protocol_Version;
-      O : constant Protocol_Version :=
-         (Version => 2,
-          Min_Version => 2,
-          Max_Version => 2,
-          Spec_Version_Hash => [others => 1],
-          Library_Version_Hash => [others => 1]);
    begin
       Encode (O, Out_Connect, Sig, Buffer, Last);
 

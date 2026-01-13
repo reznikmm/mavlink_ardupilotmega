@@ -2,11 +2,6 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
-------------
---  DEPRECATED SINCE: 2019-10 REPLACED BY: PLAY_TUNE_V2
---  New version explicitly defines format. More interoperable.
-------------
-
 --  Control vehicle tone generation (buzzer).
 
 pragma Ada_2022;

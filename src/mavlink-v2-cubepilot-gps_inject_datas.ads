@@ -2,10 +2,6 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
-------------
---  DEPRECATED SINCE: 2022-05 REPLACED BY: GPS_RTCM_DATA
-------------
-
 --  Data for injecting into the onboard GPS (used for DGPS)
 
 pragma Ada_2022;
