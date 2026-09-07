@@ -6,7 +6,7 @@
 --  and button using standard joystick axes nomenclature. Unused axes can be
 --  disabled and buttons states are transmitted as individual on/off bits of a
 --  bitmask. For more information see
---  https://mavlink.io/en/manual_control.html
+--  https://mavlink.io/en/services/manual_control.html
 
 pragma Ada_2022;
 

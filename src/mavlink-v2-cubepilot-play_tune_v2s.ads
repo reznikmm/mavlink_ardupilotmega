@@ -2,7 +2,8 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
---  Play vehicle tone/tune (buzzer). Supersedes message PLAY_TUNE.
+--  Play vehicle tone/tune (buzzer). Supported tunes can be determined using
+--  SUPPORTED_TUNES. Supersedes message PLAY_TUNE.
 
 pragma Ada_2022;
 

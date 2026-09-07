@@ -2,7 +2,7 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
---  Set the system mode, as defined by enum MAV_MODE. There is no target
+--  Set the system mode, as defined by enum MAV_MODE_FLAG. There is no target
 --  component id as the mode is by definition for the overall aircraft, not
 --  only for one component.
 

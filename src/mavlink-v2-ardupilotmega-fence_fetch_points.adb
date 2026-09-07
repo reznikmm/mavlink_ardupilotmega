@@ -110,9 +110,11 @@ package body MAVLink.V2.Ardupilotmega.Fence_Fetch_Points is
         with Address => Message'Address,
         Convention   => Ada;
    begin
-      Get_Message_Data (Connect, Data, Last);
-      Buf (1 .. Last) := Data (1 .. Last);
       CRC_Valid := Check_CRC (Connect);
+      if CRC_Valid then
+         Get_Message_Data (Connect, Data, Last);
+         Buf (1 .. Last) := Data (1 .. Last);
+      end if;
    end Decode;
 
    ------------
@@ -150,9 +152,11 @@ package body MAVLink.V2.Ardupilotmega.Fence_Fetch_Points is
         with Address => Message'Address,
         Convention   => Ada;
    begin
-      Get_Message_Data (Connect, Data, Last);
-      Buf (1 .. Last) := Data (1 .. Last);
       CRC_Valid := Check_CRC (Connect);
+      if CRC_Valid then
+         Get_Message_Data (Connect, Data, Last);
+         Buf (1 .. Last) := Data (1 .. Last);
+      end if;
    end Decode;
 
    ------------

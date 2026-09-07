@@ -2,6 +2,11 @@
 --  DO NOT EDIT. This file is generated. --
 -------------------------------------------
 
+------------
+--  DEPRECATED SINCE: 2022-09 REPLACED BY: POWER_STATUS
+--  POWER_STATUS+SYS_STATUS form a superset of the fields in this message.
+------------
+
 --  Status of key hardware.
 
 pragma Ada_2022;
@@ -17,6 +22,8 @@ package MAVLink.V2.Ardupilotmega.Hwstatuses is
       I2Cerr : Interfaces.Unsigned_8;
       --  I2C error count.
    end record;
+
+   pragma Obsolescent (Hwstatus);
 
    for Hwstatus use record
       Vcc    at 0 range 0 .. 15;
@@ -40,27 +47,37 @@ package MAVLink.V2.Ardupilotmega.Hwstatuses is
      (Message   : out Hwstatus;
       Connect   : MAVLink.V2.Connection;
       CRC_Valid : out Boolean);
-   --  Get the message from the Connect and delete it
-   --  from the Connect's buffer. CRC_Valid is set to
-   --  True if x25crc is valid for the message.
+   --  Get the message from the Connect if x25crc is valid and
+   --  set CRC_Valid to True.
+   --  Won't read data from the Connect if x25crc is False.
+   --  For v1: Won't read data from the Connect if message length mismatch
+   --    and set CRC_Valid to False in this case.
+   --  For v2: Truncate the extension fields.
 
    procedure Decode
      (Message : out Hwstatus;
       Connect : MAVLink.V2.Connection);
-   --  Same as Above but does not check CRC
+   --  Get the message from the Connect.
+   --  For v1: May raise exception when message length mismatch
+   --  For v2: Truncate the extension fields.
 
    procedure Decode
      (Message   : out Hwstatus;
       Connect   : MAVLink.V2.In_Connection;
       CRC_Valid : out Boolean);
-   --  Get the message from the Connect and delete it
-   --  from the Connect's buffer. CRC_Valid is set to
-   --  True if x25crc is valid for the message.
+   --  Get the message from the Connect if x25crc is valid and
+   --  set CRC_Valid to True.
+   --  Won't read data from the Connect if x25crc is False.
+   --  For v1: Won't read data from the Connect if message length mismatch
+   --    and set CRC_Valid to False in this case.
+   --  For v2: Truncate the extension fields.
 
    procedure Decode
      (Message : out Hwstatus;
       Connect : MAVLink.V2.In_Connection);
-   --  Same as Above but does not check CRC
+   --  Get the message from the Connect.
+   --  For v1: May raise an exception when message length mismatch
+   --  For v2: Truncate the extension fields.
 
    function Check_CRC
      (Connect : MAVLink.V2.Connection)

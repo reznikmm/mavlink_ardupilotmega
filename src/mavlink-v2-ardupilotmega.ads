@@ -229,6 +229,7 @@ package MAVLink.V2.Ardupilotmega is
    Esc_Info_Id                                : constant Msg_Id := 290;
    Esc_Status_Id                              : constant Msg_Id := 291;
    Airspeed_Id                                : constant Msg_Id := 295;
+   Global_Position_Sensor_Id                  : constant Msg_Id := 296;
    Wifi_Config_Ap_Id                          : constant Msg_Id := 299;
    Protocol_Version_Id                        : constant Msg_Id := 300;
    Ais_Vessel_Id                              : constant Msg_Id := 301;
@@ -257,6 +258,7 @@ package MAVLink.V2.Ardupilotmega is
    Battery_Info_Id                            : constant Msg_Id := 372;
    Generator_Status_Id                        : constant Msg_Id := 373;
    Actuator_Output_Status_Id                  : constant Msg_Id := 375;
+   Relay_Status_Id                            : constant Msg_Id := 376;
    Time_Estimate_To_Target_Id                 : constant Msg_Id := 380;
    Tunnel_Id                                  : constant Msg_Id := 385;
    Can_Frame_Id                               : constant Msg_Id := 386;
@@ -357,7 +359,7 @@ package MAVLink.V2.Ardupilotmega is
        275   .. 277   |
        280   .. 288   |
        290   .. 291   |
-       295   .. 295   |
+       295   .. 296   |
        299   .. 301   |
        310   .. 311   |
        320   .. 324   |
@@ -367,7 +369,7 @@ package MAVLink.V2.Ardupilotmega is
        350   .. 350   |
        360   .. 361   |
        370   .. 373   |
-       375   .. 375   |
+       375   .. 376   |
        380   .. 380   |
        385   .. 388   |
        390   .. 390   |
@@ -615,6 +617,7 @@ package MAVLink.V2.Ardupilotmega is
          when 290   => "Esc_Info",
          when 291   => "Esc_Status",
          when 295   => "Airspeed",
+         when 296   => "Global_Position_Sensor",
          when 299   => "Wifi_Config_Ap",
          when 300   => "Protocol_Version",
          when 301   => "Ais_Vessel",
@@ -643,6 +646,7 @@ package MAVLink.V2.Ardupilotmega is
          when 372   => "Battery_Info",
          when 373   => "Generator_Status",
          when 375   => "Actuator_Output_Status",
+         when 376   => "Relay_Status",
          when 380   => "Time_Estimate_To_Target",
          when 385   => "Tunnel",
          when 386   => "Can_Frame",
