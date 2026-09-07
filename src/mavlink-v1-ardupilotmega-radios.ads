@@ -21,7 +21,7 @@ package MAVLink.V1.Ardupilotmega.Radios is
       --  Remote signal strength.
       Txbuf    : Interfaces.Unsigned_8;
       --  Units: [%]
-      --  How full the tx buffer is.
+      --  Remaining free transmitter buffer space.
       Noise    : Interfaces.Unsigned_8;
       --  Background noise level.
       Remnoise : Interfaces.Unsigned_8;
@@ -59,27 +59,37 @@ package MAVLink.V1.Ardupilotmega.Radios is
      (Message   : out Radio;
       Connect   : in out MAVLink.V1.Connection;
       CRC_Valid : out Boolean);
-   --  Get the message from the Connect and delete it
-   --  from the Connect's buffer. CRC_Valid is set to
-   --  True if x25crc is valid for the message.
+   --  Get the message from the Connect if x25crc is valid and
+   --  set CRC_Valid to True.
+   --  Won't read data from the Connect if x25crc is False.
+   --  For v1: Won't read data from the Connect if message length mismatch
+   --    and set CRC_Valid to False in this case.
+   --  For v2: Truncate the extension fields.
 
    procedure Decode
      (Message : out Radio;
       Connect : MAVLink.V1.Connection);
-   --  Same as Above but does not check CRC
+   --  Get the message from the Connect.
+   --  For v1: May raise exception when message length mismatch
+   --  For v2: Truncate the extension fields.
 
    procedure Decode
      (Message   : out Radio;
       Connect   : in out MAVLink.V1.In_Connection;
       CRC_Valid : out Boolean);
-   --  Get the message from the Connect and delete it
-   --  from the Connect's buffer. CRC_Valid is set to
-   --  True if x25crc is valid for the message.
+   --  Get the message from the Connect if x25crc is valid and
+   --  set CRC_Valid to True.
+   --  Won't read data from the Connect if x25crc is False.
+   --  For v1: Won't read data from the Connect if message length mismatch
+   --    and set CRC_Valid to False in this case.
+   --  For v2: Truncate the extension fields.
 
    procedure Decode
      (Message : out Radio;
       Connect : MAVLink.V1.In_Connection);
-   --  Same as Above but does not check CRC
+   --  Get the message from the Connect.
+   --  For v1: May raise an exception when message length mismatch
+   --  For v2: Truncate the extension fields.
 
    function Check_CRC
      (Connect : in out MAVLink.V1.Connection)

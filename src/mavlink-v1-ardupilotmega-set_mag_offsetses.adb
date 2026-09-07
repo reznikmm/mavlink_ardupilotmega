@@ -57,16 +57,21 @@ package body MAVLink.V1.Ardupilotmega.Set_Mag_Offsetses is
       Connect   : in out MAVLink.V1.Connection;
       CRC_Valid : out Boolean)
    is
-      Buf : Data_Buffer
-        (1 .. Set_Mag_Offsets'Size / 8) := [others => 0]
-        with Address => Message'Address,
-        Convention   => Ada;
+      Buf : Data_Buffer (1 .. Set_Mag_Offsets'Size / 8)
+        with Import,
+        Address    => Message'Address,
+        Convention => Ada;
    begin
-      pragma Assert
-        (Get_Msg_Len (Connect) =
-             Unsigned_8 (Integer (Set_Mag_Offsets'Value_Size) / 8));
-      Get_Message_Data (Connect, Buf);
-      CRC_Valid := Check_CRC (Connect);
+      if Get_Msg_Len (Connect) =
+        Unsigned_8 (Integer (Set_Mag_Offsets'Value_Size) / 8)
+      then
+         CRC_Valid := Check_CRC (Connect);
+         if CRC_Valid then
+            Get_Message_Data (Connect, Buf);
+         end if;
+      else
+         CRC_Valid := False;
+      end if;
    end Decode;
 
    ------------
@@ -97,16 +102,21 @@ package body MAVLink.V1.Ardupilotmega.Set_Mag_Offsetses is
       Connect   : in out MAVLink.V1.In_Connection;
       CRC_Valid : out Boolean)
    is
-      Buf : Data_Buffer
-        (1 .. Set_Mag_Offsets'Size / 8) := [others => 0]
-        with Address => Message'Address,
-        Convention   => Ada;
+      Buf : Data_Buffer (1 .. Set_Mag_Offsets'Size / 8)
+        with Import,
+        Address    => Message'Address,
+        Convention => Ada;
    begin
-      pragma Assert
-        (Get_Msg_Len (Connect) =
-             Unsigned_8 (Integer (Set_Mag_Offsets'Value_Size) / 8));
-      Get_Message_Data (Connect, Buf);
-      CRC_Valid := Check_CRC (Connect);
+      if Get_Msg_Len (Connect) =
+        Unsigned_8 (Integer (Set_Mag_Offsets'Value_Size) / 8)
+      then
+         CRC_Valid := Check_CRC (Connect);
+         if CRC_Valid then
+            Get_Message_Data (Connect, Buf);
+         end if;
+      else
+         CRC_Valid := False;
+      end if;
    end Decode;
 
    ------------

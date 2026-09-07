@@ -59,32 +59,6 @@ package MAVLink.V1.Ardupilotmega.Types is
      (if Value in Accelcal_Vehicle_Pos_Well_Known
       then Well_Known_Image (Value) else "Unknown:" & Value'Image);
 
-   type Heading_Type is new Interfaces.Unsigned_8;
-
-   function Course_Over_Ground return Heading_Type is (0)
-     with Static;
-
-   function Heading return Heading_Type is (1)
-     with Static;
-
-   function Default return Heading_Type is (2)
-     with Static;
-
-   subtype Heading_Type_Well_Known is Heading_Type
-     with Static_Predicate => Heading_Type_Well_Known in
-       Course_Over_Ground .. Default;
-
-   function Well_Known_Image
-     (Value : Heading_Type_Well_Known) return String is
-       (case Value is
-        when Course_Over_Ground => "Course_Over_Ground",
-        when Heading => "Heading",
-        when Default => "Default");
-
-   function Image (Value : Heading_Type) return String is
-     (if Value in Heading_Type_Well_Known
-      then Well_Known_Image (Value) else "Unknown:" & Value'Image);
-
    subtype Mav_Cmd is MAVLink.V1.Common.Types.Mav_Cmd;
    --  Commands to be executed by the MAV. They can be executed on user
    --  request, or as part of a mission script. If the action is used in a
@@ -188,6 +162,16 @@ package MAVLink.V1.Ardupilotmega.Types is
    --  other degrees of freedom are not specified, and will be flight-stack
    --  specific (on vehicles where they can be controlled independent of the
    --  heading).
+
+   function Nav_Arc_Waypoint return Mav_Cmd is (36)
+     with Static;
+   --  Circular arc path waypoint. This defines the end/exit point and angle
+   --  (param1) of an arc path from the previous waypoint. A position is
+   --  required before this command to define the start of the arc (e.g.
+   --  current position, a MAV_CMD_NAV_WAYPOINT, or a
+   --  MAV_CMD_NAV_ARC_WAYPOINT). The resulting path is a circular arc in the
+   --  NE frame, with the difference in height being defined by the difference
+   --  in waypoint altitudes.
 
    function Nav_Roi return Mav_Cmd is (80)
      with Static;
@@ -303,7 +287,8 @@ package MAVLink.V1.Ardupilotmega.Types is
 
    function Do_Set_Relay return Mav_Cmd is (181)
      with Static;
-   --  Set a relay to a condition.
+   --  Set a relay to a condition. The current value may optionally be
+   --  reported using RELAY_STATUS.
 
    function Do_Repeat_Relay return Mav_Cmd is (182)
      with Static;
@@ -682,7 +667,7 @@ package MAVLink.V1.Ardupilotmega.Types is
    function Get_Home_Position return Mav_Cmd is (410)
      with Static;
    --  Request the home position from the vehicle. The vehicle will ACK the
-   --  command and then emit the HOME_POSITION message.
+   --  command and emit the HOME_POSITION message.
 
    function Inject_Failure return Mav_Cmd is (420)
      with Static;
@@ -803,6 +788,18 @@ package MAVLink.V1.Ardupilotmega.Types is
    --  missing tag should complete the mission, and a jump where there are
    --  multiple matching tags should always select the one with the lowest
    --  mission sequence number.
+
+   function Do_Set_Global_Origin return Mav_Cmd is (611)
+     with Static;
+   --  Sets the GNSS coordinates of the vehicle local origin (0,0,0) position.
+   --  Vehicle should emit GPS_GLOBAL_ORIGIN irrespective of whether the
+   --  origin is changed. This enables transform between the local coordinate
+   --  frame and the global (GNSS) coordinate frame, which may be necessary
+   --  when (for example) indoor and outdoor settings are connected and the
+   --  MAV should move from in- to outdoor. This command supersedes
+   --  SET_GPS_GLOBAL_ORIGIN. Should be sent in a COMMAND_INT (Expected frame
+   --  is MAV_FRAME_GLOBAL, and this should be assumed when sent in
+   --  COMMAND_LONG).
 
    function Do_Gimbal_Manager_Pitchyaw return Mav_Cmd is (1000)
      with Static;
@@ -951,7 +948,7 @@ package MAVLink.V1.Ardupilotmega.Types is
    --  COMMAND_ACK message progress field should be set with period of time
    --  that this authorization is valid in seconds. If the authorization is
    --  denied COMMAND_ACK.result_param2 should be set with one of the reasons
-   --  in ARM_AUTH_DENIED_REASON.
+   --  in MAV_ARM_AUTH_DENIED_REASON.
 
    function Set_Guided_Submode_Standard return Mav_Cmd is (4000)
      with Static;
@@ -1115,7 +1112,8 @@ package MAVLink.V1.Ardupilotmega.Types is
    function Can_Forward return Mav_Cmd is (32000)
      with Static;
    --  Request forwarding of CAN packets from the given CAN bus to this
-   --  component. CAN Frames are sent using CAN_FRAME and CANFD_FRAME messages
+   --  component via this MAVLink channel. CAN Frames are sent using CAN_FRAME
+   --  and CANFD_FRAME messages
 
    function Power_Off_Initiated return Mav_Cmd is (42000)
      with Static;
@@ -1229,27 +1227,18 @@ package MAVLink.V1.Ardupilotmega.Types is
    function Guided_Change_Speed return Mav_Cmd is (43000)
      with Static;
    --  Change flight speed at a given rate. This slews the vehicle at a
-   --  controllable rate between it's previous speed and the new one. (affects
-   --  GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed
-   --  for onboard companion-computer command-and-control, not normally
-   --  operator/GCS control.)
+   --  controllable rate between it's previous speed and the new one.
 
    function Guided_Change_Altitude return Mav_Cmd is (43001)
      with Static;
    --  Change target altitude at a given rate. This slews the vehicle at a
    --  controllable rate between it's previous altitude and the new one.
-   --  (affects GUIDED only. Outside GUIDED, aircraft ignores these commands.
-   --  Designed for onboard companion-computer command-and-control, not
-   --  normally operator/GCS control.)
 
    function Guided_Change_Heading return Mav_Cmd is (43002)
      with Static;
-   --  Change to target heading at a given rate, overriding previous
-   --  heading/s. This slews the vehicle at a controllable rate between it's
-   --  previous heading and the new one. (affects GUIDED only. Exiting GUIDED
-   --  returns aircraft to normal behaviour defined elsewhere. Designed for
-   --  onboard companion-computer command-and-control, not normally
-   --  operator/GCS control.)
+   --  Change to target direction at a given rate, overriding previous
+   --  heading/s. This slews the vehicle at a controllable rate between its
+   --  previous heading and the new one.
 
    function External_Position_Estimate return Mav_Cmd is (43003)
      with Static;
@@ -1266,7 +1255,7 @@ package MAVLink.V1.Ardupilotmega.Types is
    subtype Mav_Cmd_Well_Known is Mav_Cmd
      with Static_Predicate => Mav_Cmd_Well_Known in
        Nav_Waypoint .. Nav_Follow
-       | Nav_Continue_And_Change_Alt .. Do_Figure_Eight
+       | Nav_Continue_And_Change_Alt .. Nav_Arc_Waypoint
        | Nav_Roi .. Nav_Vtol_Land
        | Nav_Guided_Enable .. Nav_Last
        | Condition_Delay .. Condition_Yaw
@@ -1290,6 +1279,7 @@ package MAVLink.V1.Ardupilotmega.Types is
        | Request_Protocol_Version .. Request_Camera_Settings
        | Request_Storage_Information .. Set_Camera_Source
        | Jump_Tag .. Do_Jump_Tag
+       | Do_Set_Global_Origin
        | Do_Gimbal_Manager_Pitchyaw .. Do_Gimbal_Manager_Configure
        | Image_Start_Capture .. Camera_Track_Rectangle
        | Camera_Stop_Tracking
@@ -1339,6 +1329,7 @@ package MAVLink.V1.Ardupilotmega.Types is
         when Do_Follow_Reposition => "Do_Follow_Reposition",
         when Do_Orbit => "Do_Orbit",
         when Do_Figure_Eight => "Do_Figure_Eight",
+        when Nav_Arc_Waypoint => "Nav_Arc_Waypoint",
         when Nav_Roi => "Nav_Roi",
         when Nav_Pathplanning => "Nav_Pathplanning",
         when Nav_Spline_Waypoint => "Nav_Spline_Waypoint",
@@ -1439,6 +1430,7 @@ package MAVLink.V1.Ardupilotmega.Types is
         when Set_Camera_Source => "Set_Camera_Source",
         when Jump_Tag => "Jump_Tag",
         when Do_Jump_Tag => "Do_Jump_Tag",
+        when Do_Set_Global_Origin => "Do_Set_Global_Origin",
         when Do_Gimbal_Manager_Pitchyaw => "Do_Gimbal_Manager_Pitchyaw",
         when Do_Gimbal_Manager_Configure => "Do_Gimbal_Manager_Configure",
         when Image_Start_Capture => "Image_Start_Capture",
@@ -2990,9 +2982,49 @@ package MAVLink.V1.Ardupilotmega.Types is
    function Landing return Pid_Tuning_Axis is (6)
      with Static;
 
+   function Wheel_Left return Pid_Tuning_Axis is (7)
+     with Static;
+   --  Left wheel rate.
+
+   function Wheel_Right return Pid_Tuning_Axis is (8)
+     with Static;
+   --  Right wheel rate.
+
+   function Sail_Heel return Pid_Tuning_Axis is (9)
+     with Static;
+   --  Sailboat heel to mainsail.
+
+   function Vel_North return Pid_Tuning_Axis is (10)
+     with Static;
+   --  Velocity north.
+
+   function Vel_East return Pid_Tuning_Axis is (11)
+     with Static;
+   --  Velocity east.
+
+   function Vel_Down return Pid_Tuning_Axis is (12)
+     with Static;
+   --  Velocity down.
+
+   function Pos_North return Pid_Tuning_Axis is (13)
+     with Static;
+   --  Position north.
+
+   function Pos_East return Pid_Tuning_Axis is (14)
+     with Static;
+   --  Position east.
+
+   function Pos_Down return Pid_Tuning_Axis is (15)
+     with Static;
+   --  Position down.
+
+   function Yaw_Angle return Pid_Tuning_Axis is (16)
+     with Static;
+   --  Yaw angle.
+
    subtype Pid_Tuning_Axis_Well_Known is Pid_Tuning_Axis
      with Static_Predicate => Pid_Tuning_Axis_Well_Known in
-       Roll .. Landing;
+       Roll .. Yaw_Angle;
 
    function Well_Known_Image
      (Value : Pid_Tuning_Axis_Well_Known) return String is
@@ -3002,7 +3034,17 @@ package MAVLink.V1.Ardupilotmega.Types is
         when Yaw => "Yaw",
         when Accz => "Accz",
         when Steer => "Steer",
-        when Landing => "Landing");
+        when Landing => "Landing",
+        when Wheel_Left => "Wheel_Left",
+        when Wheel_Right => "Wheel_Right",
+        when Sail_Heel => "Sail_Heel",
+        when Vel_North => "Vel_North",
+        when Vel_East => "Vel_East",
+        when Vel_Down => "Vel_Down",
+        when Pos_North => "Pos_North",
+        when Pos_East => "Pos_East",
+        when Pos_Down => "Pos_Down",
+        when Yaw_Angle => "Yaw_Angle");
 
    function Image (Value : Pid_Tuning_Axis) return String is
      (if Value in Pid_Tuning_Axis_Well_Known
@@ -3387,16 +3429,12 @@ package MAVLink.V1.Ardupilotmega.Types is
      with Static;
    --  TURTLE
 
-   function Rate_Acro return Copter_Mode is (29)
-     with Static;
-   --  RATE_ACRO
-
    subtype Copter_Mode_Well_Known is Copter_Mode
      with Static_Predicate => Copter_Mode_Well_Known in
        Stabilize .. Circle
        | Land
        | Drift
-       | Sport .. Rate_Acro;
+       | Sport .. Turtle;
 
    function Well_Known_Image
      (Value : Copter_Mode_Well_Known) return String is
@@ -3426,8 +3464,7 @@ package MAVLink.V1.Ardupilotmega.Types is
         when Systemid => "Systemid",
         when Autorotate => "Autorotate",
         when Auto_Rtl => "Auto_Rtl",
-        when Turtle => "Turtle",
-        when Rate_Acro => "Rate_Acro");
+        when Turtle => "Turtle");
 
    function Image (Value : Copter_Mode) return String is
      (if Value in Copter_Mode_Well_Known
